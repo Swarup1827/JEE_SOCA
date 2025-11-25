@@ -418,22 +418,25 @@ QUESTIONS = {
     ]
 }
 
-def get_questions(subject: str) -> List[Dict[str, Any]]:
+def get_questions(subject: str, shuffle: bool = True) -> List[Dict[str, Any]]:
     """
-    Retrieve questions for a specific subject in random order.
+    Retrieve questions for a specific subject.
     
     Args:
         subject (str): The subject name
+        shuffle (bool): Whether to shuffle the questions. Defaults to True.
         
     Returns:
-        List[Dict[str, Any]]: List of questions with their options and correct answers in random order
+        List[Dict[str, Any]]: List of questions with their options and correct answers
     """
     questions = QUESTIONS.get(subject, [])
     # Create a copy of the questions list to avoid modifying the original
-    shuffled_questions = questions.copy()
-    # Shuffle the questions randomly
-    random.shuffle(shuffled_questions)
-    return shuffled_questions
+    result_questions = questions.copy()
+    
+    if shuffle:
+        random.shuffle(result_questions)
+        
+    return result_questions
 
 def get_all_subjects() -> List[str]:
     """
