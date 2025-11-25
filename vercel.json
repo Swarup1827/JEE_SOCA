@@ -1,4 +1,13 @@
 {
+    "builds": [
+        {
+            "src": "api/index.py",
+            "use": "@vercel/python",
+            "config": {
+                "maxDuration": 30
+            }
+        }
+    ],
     "rewrites": [
         {
             "source": "/api/(.*)",
