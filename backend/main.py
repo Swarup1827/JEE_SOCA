@@ -19,7 +19,7 @@ app.include_router(routes.router, prefix="/api")
 
 @app.get("/")
 async def root():
-    return {"message": "JEE SOCA Analysis API is running"}
+    return {"message": "Backend is running! If you see this, the Frontend is not being served correctly."}
 
 if __name__ == "__main__":
     uvicorn.run("backend.main:app", host="0.0.0.0", port=8000, reload=True)
