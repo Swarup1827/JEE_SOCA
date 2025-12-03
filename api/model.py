@@ -1,15 +1,28 @@
 import os
-import google.generativeai as genai
-from dotenv import load_dotenv
 
-# Load environment variables
-load_dotenv()
+# Try to import optional dependencies
+try:
+    import google.generativeai as genai
+    GENAI_AVAILABLE = True
+except ImportError:
+    GENAI_AVAILABLE = False
+    print("Warning: google-generativeai not available")
+
+try:
+    from dotenv import load_dotenv
+    load_dotenv()
+except ImportError:
+    print("Warning: python-dotenv not available")
 
 def load_model():
     """
     Configures the Gemini API.
     Returns the configured genai module (acting as the 'model' object).
     """
+    if not GENAI_AVAILABLE:
+        print("Warning: google-generativeai not available")
+        return None, None, None
+        
     api_key = os.getenv("GOOGLE_API_KEY")
     if not api_key:
         print("Warning: GOOGLE_API_KEY not found in environment variables.")
