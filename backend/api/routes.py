@@ -1,18 +1,10 @@
 from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel
 from typing import Dict, List, Any, Optional
-import sys
-import os
 
-# Get the project root directory
-# routes.py is in backend/api/, so go up 3 levels to project root
-current_file = os.path.abspath(__file__)
-project_root = os.path.dirname(os.path.dirname(os.path.dirname(current_file)))
-if project_root not in sys.path:
-    sys.path.insert(0, project_root)
-
-# Now import from backend
-from backend import questions, model
+# Import from local api directory
+import questions
+import model
 
 router = APIRouter()
 
