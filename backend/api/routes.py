@@ -14,15 +14,6 @@ ml_model = None
 tokenizer = None
 device = None
 
-@router.on_event("startup")
-async def startup_event():
-    global ml_model, tokenizer, device
-    print("Loading model on startup...")
-    try:
-        ml_model, tokenizer, device = model.load_model()
-    except Exception as e:
-        print(f"Failed to load model: {e}")
-
 @router.get("/subjects")
 async def get_subjects():
     return {"subjects": questions.get_all_subjects()}
@@ -30,11 +21,10 @@ async def get_subjects():
 @router.get("/questions/{subject}")
 async def get_subject_questions(subject: str):
     try:
-        qs = questions.get_questions(subject)
-        # We don't need to hide correct answers here if the frontend handles it, 
-        # but for security, we should probably strip them. 
-        # However, the original app sent everything to frontend.
-        # Let's strip correct answers for better security.
+        # Use shuffle=False to ensure deterministic ordering
+        # This is critical for answer key matching in the analyze endpoint
+        qs = questions.get_questions(subject, shuffle=False)
+        # Strip correct answers for security
         sanitized_questions = []
         for q in qs:
             q_copy = q.copy()
